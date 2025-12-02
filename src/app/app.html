@@ -25,26 +25,43 @@
         <span class="icon">&#9888;</span>
         <span>Su sesión ha excedido el tiempo límite. Por favor, inicie sesión de nuevo.</span>
       </div>
-      <form>
+      <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
         <div class="form-row">
           <label for="usuario">Usuario</label>
-          <input id="usuario" type="text" name="usuario" placeholder="" value="" />
+          <input
+            id="usuario"
+            type="text"
+            name="usuario"
+            [(ngModel)]="usuario"
+            required
+          />
         </div>
         <div class="form-row">
           <label for="password">Contraseña</label>
-          <input id="password" type="password" name="password" />
+          <input
+            id="password"
+            type="password"
+            name="contrasena"
+            [(ngModel)]="contrasena"
+            required
+          />
         </div>
         <div class="check-row">
           <input id="recordar" type="checkbox" name="recordar" />
           <label for="recordar" style="width:auto; text-align:left;">Recordar nombre de usuario</label>
         </div>
         <div class="action-row">
-          <button type="submit">Iniciar sesión (ingresar)</button>
+          <button type="submit" [disabled]="loginForm.invalid || estado === 'loading'">
+            {{ estado === 'loading' ? 'Enviando...' : 'Iniciar sesión (ingresar)' }}
+          </button>
         </div>
         <div class="links">
           <a href="#">¿Olvidó su usuario o contraseña?</a>
         </div>
         <div class="info">Las 'Cookies' deben estar habilitadas en su navegador &#9432;</div>
+        <div *ngIf="mensaje" [ngStyle]="{ color: estado === 'error' ? '#b94a48' : '#2d7a32', marginTop: '8px', fontSize: '13px' }">
+          {{ mensaje }}
+        </div>
       </form>
     </div>
   </div>
